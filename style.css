@@ -1,0 +1,45 @@
+/* Style generale */
+body {
+    font-family: Quicksand, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #10cedf;
+}
+header {
+    display: flex;
+    justify-content: center;
+    
+}
+form{
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    background-color: #e8edee; 
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+th:nth-child(1) ,th:nth-child(2) {
+    width: 10%;
+}
+.task-list-header h2 {
+    margin: 0; /* Supprime les marges par défaut du H2 */
+}
+.task-list-header {
+    display: flex;
+    flex-direction: row;       /* sur la même ligne */
+    justify-content: space-between; /* H2 à gauche, bouton à droite */
+    align-items: center;       /* centre verticalement */
+    margin-top: 20px;      /* petit espace au-dessus */
+    margin-bottom: 0px;       /* petit espace avec la table */
+}

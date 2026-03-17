@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Bienvenue sur le gestionnaire de taches</h1>
+    </header>
+    <main>
+        <section class="task-section">
+            <h2>Ajouter une tache : </h2>
+            <form id="task-form">
+                <input type="text" id="task-input" placeholder="Titre" required>
+                <p>La tache est-elle complete ?</p>
+                <div class="checkbox-group">
+                    <input type="radio" name="choice" value="completed" id="task-completed" checked>
+                    <label for="task-important">Oui</label>
+                    <input type="radio" name="choice" value="notcompleted" id="task-not-completed">
+                    <label for="task-urgent">Non</label>
+                </div>
+                <button onclick="saveTask(event)">Ajouter</button>
+            </form>
+        </section>
+        <section class="task-list-section">
+            <div class="task-list-header">
+                <h2>Liste des taches</h2>
+                <button onclick="deleteTasks()">Supprimer</button>
+            </div>
+            <table id="task-table">
+                <thead>
+                    <tr>
+                        <th id="lignes">lignes</th>
+                        <th id="task-id">Id</th>
+                        <th>Titre</th>
+                        <th>Complete</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
