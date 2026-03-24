@@ -24,13 +24,13 @@
                     <input type="radio" name="choice" value="notcompleted" id="task-not-completed">
                     <label for="task-urgent">Non</label>
                 </div>
-                <button onclick="saveTask(event)">Ajouter</button>
+                <button id="btn-ajouter" type="submit">Ajouter</button>
             </form>
         </section>
         <section class="task-list-section">
             <div class="task-list-header">
                 <h2>Liste des taches</h2>
-                <button onclick="deleteTasks()">Supprimer</button>
+                <button id="btn-supprimer" type="button">Supprimer</button>
             </div>
             <table id="task-table">
                 <thead>
@@ -47,6 +47,103 @@
     </main>
 
     <script src="app.js"></script>
+    <script>
+
+        // Ajouter une tache
+        document.getElementById("btn-ajouter").addEventListener("click", function (event) {
+            event.preventDefault();
+
+            let title = document.getElementById("task-input").value;
+            let choice = document.querySelector('input[name="choice"]:checked').value;
+            let etat = (choice === "completed") ? "True" : "False";
+
+            if (typeof (Storage) !== "undefined") {
+                console.log("Le Storage est disponible.");
+                // recuperer les taches existantes du localStorage
+                let existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+                // Le plus grand Id 
+                let lastId = 0;
+
+                if (existingTasks.length > 0) {
+                    lastId = Math.max(...existingTasks.map(task => task.id));
+                }
+                let task = {
+                    id: lastId + 1,
+                    title: title,
+                    etat: etat
+                };
+
+                // ajouter la nouvelle tache a la liste des taches existantes
+                existingTasks.push(task);
+                // enregistrer la liste mise a jour dans le localStorage
+                localStorage.setItem("tasks", JSON.stringify(existingTasks));
+                // afficher la nouvelle tache dans le tableau
+                saveTasks(event, task);
+            } else {
+                console.error("La fonctionnalité de stockage n'est pas prise en charge par ce navigateur.");
+            }
+        });
+
+        // Supprimer les taches selectionnees
+        document.getElementById("btn-supprimer").addEventListener("click", function () {
+            let tasksSelected = document.querySelectorAll('input[name="task-select"]:checked');
+
+            let existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+            tasksSelected.forEach(function (checkbox) {
+                let row = checkbox.closest("tr");
+
+                // récupérer le Id AVANT suppression
+                let taskId = row.querySelector("td:nth-child(2)").textContent;
+
+                // supprimer la tache du tableau des taches existantes
+                existingTasks = existingTasks.filter(task => task.id !== parseInt(taskId));
+
+                // supprimer du tableau
+                row.remove();
+
+            });
+
+            localStorage.setItem("tasks", JSON.stringify(existingTasks));
+
+        });
+
+        // Charger les taches depuis le localStorage au chargement de la page
+        window.addEventListener("load", async function () {
+
+            let existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            let tbody = document.querySelector("#task-table tbody");
+            try {
+                let response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=5");
+                let data = await response.json();
+                console.log(data);
+                tasksFromApi = data.map(task => ({
+                    id: task.id,
+                    title: task.title,
+                    etat: task.completed ? "True" : "False"
+                }));
+                existingTasks = existingTasks.concat(tasksFromApi);
+                localStorage.setItem("tasks", JSON.stringify(existingTasks));
+                console.log("Taches fromApi + existingTasks :", existingTasks);
+                tbody.innerHTML = ""; // Clear existing rows
+                existingTasks.forEach(function (task) {
+                    let tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><input type="checkbox" name="task-select"></td>
+                        <td>${task.id}</td>
+                        <td>${task.title}</td>
+                        <td>${task.etat}</td>
+                    `;
+                    tbody.appendChild(tr);
+                })
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données :", error);
+            }
+
+        });
+
+    </script>
 </body>
 
 </html>
