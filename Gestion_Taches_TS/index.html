@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <h1>Bienvenue Gestion de tâches TS</h1>
+    </header>
+    <main>
+        <section class="welcome-section">
+            <h3>Ajouter une tache</h3>
+            <form id="task-form">
+                <input type="text" id="title" name="title" placeholder="Title" required>
+                <p>La tâche est-elle terminée ?</p>
+                <div class="radio-group">
+                    <input type="radio" id="completed" name="choice" value="completed" required>
+                    <label for="completed">Oui</label>
+                    <input type="radio" id="notcompleted" name="choice" value="notcompleted">
+                    <label for="notcompleted">Non</label>
+                </div>
+                <button type="submit" id="ajouter">Ajouter</button>
+            </form>
+        </section>
+        <section class="table-section">
+            <div class="task-list-header">
+                <h3>Tableau de bord des taches</h3>
+                <button id="supprimer" type="submit">Supprimer</button>
+            </div>
+
+            <table id="task-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>id</th>
+                        <th>Titre</th>
+                        <th>Complete</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+    </main>
+    <script type="module" src="dist/main.js"></script>
+</body>
+
+</html>
